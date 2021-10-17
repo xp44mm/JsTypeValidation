@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="typevalid.yacc" />
+    <Compile Include="ValidParsingTable.fs" />
+    <Compile Include="PatternToken.fs" />
+    <Compile Include="PatternTokenizer.fs" />
+    <Compile Include="Driver.fs" />
+    <Compile Include="Pattern.fs" />
+    <Compile Include="Translation.fs" />
+    <Compile Include="PatternCompiler.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Idioms" Version="1.1.14" />
+    <PackageReference Include="FSharpCompiler.Parsing" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>
