@@ -9,9 +9,9 @@ type PatternToken =
 | LBRACE
 | RBRACE
 | ELLIPSIS
+| NULL
 | TYPE of string
 | ID of string
-| NULL
 | BOOLEAN of bool
 | NUMBER of float
 | QUOTE of string
@@ -25,9 +25,9 @@ type PatternToken =
         | LBRACE   -> "{"
         | RBRACE   -> "}"
         | ELLIPSIS -> "..."
+        | NULL     -> "NULL"
         | TYPE       _ -> "TYPE"
         | ID _ -> "ID"
-        | NULL     -> "NULL"
         | BOOLEAN    _ -> "BOOLEAN"
         | NUMBER     _ -> "NUMBER"
         | QUOTE      _ -> "QUOTE"

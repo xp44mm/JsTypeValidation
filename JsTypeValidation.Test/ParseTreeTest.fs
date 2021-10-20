@@ -20,12 +20,24 @@ type ParseTreeTest(output:ITestOutputHelper) =
         Driver.parseToTree tokens
 
     [<Fact>]
+    member this.``value NULL``() =
+        let x = "null"
+        let y = parse x
+        //show y
+        Should.equal y 
+        <| Interior("value",[
+            Terminal(NULL)
+            ])
+
+
+
+    [<Fact>]
     member this.``single id``() =
         let x = "x"
         let y = parse x
         //show y
         Should.equal y 
-        <| Interior("pattern",[
+        <| Interior("value",[
             Terminal(ID "x")
             ])
 
@@ -35,7 +47,7 @@ type ParseTreeTest(output:ITestOutputHelper) =
         let y = parse x
         //show y
         Should.equal y 
-        <| Interior("pattern",[
+        <| Interior("value",[
             Interior("array",[Terminal LBRACK;Terminal RBRACK])
             ])
 
@@ -45,7 +57,7 @@ type ParseTreeTest(output:ITestOutputHelper) =
         let y = parse x
         //show y
         Should.equal y
-        <| Interior("pattern",[
+        <| Interior("value",[
             Interior("array",[Terminal LBRACK;Terminal ELLIPSIS;Terminal RBRACK])
             ])
 
@@ -55,7 +67,7 @@ type ParseTreeTest(output:ITestOutputHelper) =
         let y = parse x
         //show y
         Should.equal y 
-        <| Interior("pattern",[
+        <| Interior("value",[
             Interior("object",[Terminal LBRACE;Terminal RBRACE])
             ])
 
@@ -65,7 +77,7 @@ type ParseTreeTest(output:ITestOutputHelper) =
         let y = parse x
         //show y
         Should.equal y 
-        <| Interior("pattern",[
+        <| Interior("value",[
             Interior("object",[Terminal LBRACE;Interior("properties",[Interior("prop",[Interior("key",[Terminal(ID "a")])])]);Terminal RBRACE])
             ])
 

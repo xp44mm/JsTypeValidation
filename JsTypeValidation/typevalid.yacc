@@ -1,4 +1,4 @@
-﻿pattern: NULL
+﻿value: NULL
     | BOOLEAN
     | NUMBER
     | QUOTE
@@ -6,7 +6,7 @@
     | ID
     | array
     | object
-    | pattern "|" pattern
+    | value "|" value
 ;
 array : "["                                 "]"
       | "[" elements                        "]"
@@ -20,14 +20,14 @@ object : "{""}"
        | "{" "..." "}"
        | "{" properties "," "..." "}"
 ;
-elements:              pattern
-        | elements "," pattern
+elements:              value
+        | elements "," value
 ;
 properties:                prop
           | properties "," prop
 ;
 prop: key
-    | key ":" pattern
+    | key ":" value
 ;
 key: ID
    | QUOTE

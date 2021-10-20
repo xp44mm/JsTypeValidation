@@ -25,6 +25,7 @@ type ValidParsingTableTest(output:ITestOutputHelper) =
 
     [<Fact>]
     member this.``1-input data``() =
+
         show yacc.mainRules
         show yacc.precedences
 
@@ -46,7 +47,7 @@ type ValidParsingTableTest(output:ITestOutputHelper) =
         let tbl = AmbiguousTable.create yacc.mainRules
         let srconflicts = ConflictFactory.shiftReduceConflict tbl
         //show srconflicts
-        let y = set [set [["pattern";"pattern";"|";"pattern"]]]
+        let y = set [set [["value";"value";"|";"value"]]]
         Should.equal y srconflicts
 
     [<Fact(Skip="once and for all!")>] // 
@@ -82,7 +83,8 @@ type ValidParsingTableTest(output:ITestOutputHelper) =
 
     [<Fact>]
     member this.``9-generate translation framework``() =
-        let renderToken = function
+        let renderToken tag lexeme = 
+            match tag with
             | "|"    -> " BAR"
             | ","    -> " COMMA"
             | ":"    -> " COLON"
@@ -92,9 +94,15 @@ type ValidParsingTableTest(output:ITestOutputHelper) =
             | "}"    -> " RBRACE"
             | "..."  -> " ELLIPSIS"
             | "NULL" -> " NULL"
-            | tag    -> $"({tag} _)"
+            | tag    -> $"({tag} {lexeme})"
 
         let generate = TranslationGenerator.generateConfig renderToken
         let grammar = Grammar.from yacc.mainRules
         let code = generate grammar.nonterminals yacc.mainRules
         output.WriteLine(code)
+
+    [<Fact>]
+    member this.``a-generate json parsing table``() =
+        let parseTbl = ParseTable.create(yacc.mainRules, yacc.precedences)
+        let json = FSharpCompiler.Json.JsonFormatter.serialize parseTbl
+        output.WriteLine(json)
