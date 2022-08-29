@@ -102,7 +102,40 @@ type ValidParsingTableTest(output:ITestOutputHelper) =
         output.WriteLine(code)
 
     [<Fact>]
-    member this.``a-generate json parsing table``() =
+    member this.``a - generate json parsing table``() =
         let parseTbl = ParseTable.create(yacc.mainRules, yacc.precedences)
         let json = FSharpCompiler.Json.JsonFormatter.serialize parseTbl
         output.WriteLine(json)
+
+    [<Fact>]
+    member this.``b - generate javascript translation framework``() =
+        let tokenTags =
+            Map [
+                "|"      , "BAR" 
+                ","      , "COMMA" 
+                ":"      , "COLON" 
+                "["      , "LBRACK" 
+                "]"      , "RBRACK" 
+                "{"      , "LBRACE" 
+                "}"      , "RBRACE" 
+                "..."    , "ELLIPSIS" 
+                "NULL"   , "NULL" 
+                "TYPE"   , "TYPE" 
+                "ID"     , "ID" 
+                "BOOLEAN", "BOOLEAN" 
+                "NUMBER" , "NUMBER" 
+                "QUOTE"  , "QUOTE" 
+             ]
+
+        let semTokens = set [
+            "TYPE"
+            "ID"
+            "BOOLEAN"
+            "NUMBER"
+            "QUOTE"
+        ]
+
+        let generate = TranslationGenerator.generateJavaScript tokenTags semTokens
+        let grammar = Grammar.from yacc.mainRules
+        let code = generate grammar.nonterminals yacc.mainRules
+        output.WriteLine(code)

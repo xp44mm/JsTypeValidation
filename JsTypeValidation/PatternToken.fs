@@ -15,6 +15,7 @@ type PatternToken =
 | BOOLEAN of bool
 | NUMBER of float
 | QUOTE of string
+
     member this.getTag() =
         match this with
         | BAR      -> "|"
@@ -26,9 +27,9 @@ type PatternToken =
         | RBRACE   -> "}"
         | ELLIPSIS -> "..."
         | NULL     -> "NULL"
-        | TYPE       _ -> "TYPE"
-        | ID _ -> "ID"
-        | BOOLEAN    _ -> "BOOLEAN"
-        | NUMBER     _ -> "NUMBER"
-        | QUOTE      _ -> "QUOTE"
+        | TYPE    _ -> "TYPE"
+        | ID      _ -> "ID"
+        | BOOLEAN _ -> "BOOLEAN"
+        | NUMBER  _ -> "NUMBER"
+        | QUOTE   _ -> "QUOTE"
         

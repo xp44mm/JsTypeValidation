@@ -15,7 +15,7 @@ open System
 let tryIdentifier = 
     //故意从标识符允许字符集中排除掉`$`
     let re = Regex "^[_\p{L}\p{Nl}][\p{L}\p{Mn}\p{Mc}\p{Nl}\p{Nd}\p{Pc}\p{Cf}]*"
-    tryRegexMatch re
+    tryMatch re
     >> Option.map(fun(lex,rest)->
         let token =
             match lex with
@@ -30,15 +30,15 @@ let tryIdentifier =
 /// in the JSON format 
 let tryQuoteString =
     let re = Regex """^("(\\u[0-9A-Fa-f]{4}|\\[\\"bfnrt]|[^\\"\r\n])*")"""
-    tryRegexMatch re
+    tryMatch re
 
 /// in the JSON format 
 let tryNumber =
     let re = Regex @"^[-+]?\d+(\.\d+)?([eE][-+]?\d+)?"
-    tryRegexMatch re
+    tryMatch re
 
 
-let tryEllipsis = tryStartWith "..."
+let tryEllipsis = tryStart "..."
 
 let tokenize(inp:string) =
     let rec loop (inp:string) =
@@ -86,7 +86,7 @@ let tokenize(inp:string) =
                 yield! loop rest
 
             | On tryQuoteString (lexeme,rest) ->
-                yield  QUOTE(unquote lexeme)
+                yield  QUOTE(Quotation.unquote lexeme)
                 yield! loop rest
 
             | On tryNumber (lexeme,rest) ->
